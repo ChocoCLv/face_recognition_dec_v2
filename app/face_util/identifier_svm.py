@@ -5,6 +5,7 @@ import numpy as np
 import sys
 sys.path.append(sys.path[0] + '/app')
 import log
+import settings
 
 classifier_model = os.path.dirname(__file__) + "/classifier.pkl"
 
@@ -19,4 +20,10 @@ class Identifier:
             predictions = self.model.predict_proba([face.embedding])
             best_class_indices = np.argmax(predictions, axis=1)
             log.logging.info(predictions)
-            return self.class_names[best_class_indices[0]]
+            prediction = predictions[best_class_indices[0]]
+            face.result.min_distance = prediction
+            if prediction > settings.SVM_SIMILARITY_THRESHOLD:
+                face.result.id = self.class_names[best_class_indices[0]]
+            else:
+                face.result.id = settings.ILLEGAL_ID
+            return face.result.id
