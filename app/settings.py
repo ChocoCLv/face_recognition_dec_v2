@@ -45,6 +45,7 @@ FACE_CROP_MARGIN = 16
 
 ################ 人脸比对参数 ##################
 USE_SVM = False
+SVM_SIMILARITY_THRESHOLD = 0.9
 DISTANCE_THRESHOLD = 0.5
 STRICT_DISTANCE_THRESHOLD = 0.2
 
