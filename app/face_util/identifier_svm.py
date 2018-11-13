@@ -20,7 +20,7 @@ class Identifier:
             predictions = self.model.predict_proba([face.embedding])
             best_class_indices = np.argmax(predictions, axis=1)
             log.logging.info(predictions)
-            prediction = predictions[best_class_indices[0]]
+            prediction = predictions[0][best_class_indices[0]]
             face.result.min_distance = prediction
             if prediction > settings.SVM_SIMILARITY_THRESHOLD:
                 face.result.id = self.class_names[best_class_indices[0]]
