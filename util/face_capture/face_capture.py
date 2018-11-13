@@ -37,10 +37,16 @@ def add_overlays(frame, faces):
 def main(args):
     capture = cv2.VideoCapture(
         'rtsp://{username}:{password}@{ip}/cam/realmonitor?channel=1&subtype=0'
-        .format(username=settings.USERNAME, password=settings.PASSWORD, ip=settings.IP))
+        .format(
+            username=settings.USERNAME,
+            password=settings.PASSWORD,
+            ip=settings.IP))
     detection = Detection()
     num = 0
-    path = args.id
+    path = 'faces'
+    if not os.path.exists(path):
+        os.mkdir(path)
+    path = path + '/' + args.id
     if not os.path.exists(path):
         os.mkdir(path)
     print('capture faces for : ', str(args.id))
@@ -51,7 +57,7 @@ def main(args):
         faces = detection.find_faces(frame)
         for face in faces:
             filename = path + '/' + str(num) + '.jpg'
-            if num%10==0:
+            if num % 10 == 0:
                 cv2.imwrite(filename, face.image)
             num = num + 1
         add_overlays(frame, faces)
