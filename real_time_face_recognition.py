@@ -88,9 +88,8 @@ class facerec_app:
             self.add_overlays(frame, faces)
             if args.debug:
                 cv2.imshow('Video', frame)
-
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
 
         # When everything is done, release the capture
         video_capture.stop_processing()
