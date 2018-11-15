@@ -8,7 +8,6 @@ PASSWORD = 'admin123'
 IP = '192.168.1.224'
 
 ################ 应用参数 ######################
-SHOW_IMAGE = True #是否需要显示画面
 ILLEGAL_ID = 'unknown'
 
 LOG_BASE_DIR = '/tmp/dec'

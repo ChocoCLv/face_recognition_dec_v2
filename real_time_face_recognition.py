@@ -53,8 +53,8 @@ class facerec_app:
                         thickness=2,
                         lineType=2)
 
-    def run(self,args):
-        if(args.use_svm):
+    def run(self, args):
+        if (args.use_svm):
             settings.USE_SVM = True
             print('use svm')
         else:
@@ -86,7 +86,7 @@ class facerec_app:
                 plc.open_door()
 
             self.add_overlays(frame, faces)
-            if settings.SHOW_IMAGE:
+            if args.debug:
                 cv2.imshow('Video', frame)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -97,15 +97,21 @@ class facerec_app:
         video_capture.cleanup()
         cv2.destroyAllWindows()
 
+
 def parse_arguments(argv):
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--use_svm',
         type=bool,
-        help=
-        'use svm to identify class or just compare distance',
+        help='use svm to identify class or just compare distance',
+        default=True)
+    parser.add_argument(
+        '--debug',
+        type=bool,
+        help='show image or not',
         default=True)
     return parser.parse_args(argv)
+
 
 if __name__ == '__main__':
     app = facerec_app()
