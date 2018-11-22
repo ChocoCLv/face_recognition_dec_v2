@@ -68,7 +68,7 @@ def _send_email(result):
     else:
         desc = '识别异常'
     cmd = 'echo "' + settings.CAMERA_NAME + '"| mail -s "' + desc + '" -A ' + result.file_path + ' ' + settings.EMAIL_ADDR
-    # execute_command(cmd)
+    execute_command(cmd)
     log.logging.debug('send email over')
 
 
