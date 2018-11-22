@@ -14,6 +14,7 @@ check_dir(settings.LOG_PHOTO_DIR)
 check_dir(settings.PHOTO_SAVE_DIR_ILLEGAL)
 check_dir(settings.PHOTO_SAVE_DIR_LEGAL)
 check_dir(settings.SAMPLE_DIR_ENCODED)
+check_dir(settings.PHOTO_SAVE_FOR_DEBUG)
 
 try:
     os.remove(settings.LOG_FILE_PATH)
@@ -29,7 +30,7 @@ logging.basicConfig(
 
 
 def save_photo(image, id, timestamp, distance):
-    if distance > settings.DISTANCE_THRESHOLD:
+    if id == settings.ILLEGAL_ID:
         path = settings.PHOTO_SAVE_DIR_ILLEGAL
     else:
         path = settings.PHOTO_SAVE_DIR_LEGAL
@@ -40,6 +41,14 @@ def save_photo(image, id, timestamp, distance):
 
     if (distance < settings.STRICT_DISTANCE_THRESHOLD):
         add_sample_photo(image, id, file_name)
+
+    return file_path
+
+def save_debug_photo(image, id, timestamp, distance):
+    file_name = str(id) + '_' + str(timestamp) + '_' + str(distance) + '.jpg'
+    file_path = settings.PHOTO_SAVE_FOR_DEBUG + os.path.sep + file_name
+    logging.info('save debug photo: ' + file_path)
+    cv2.imwrite(file_path, image)
 
     return file_path
 
