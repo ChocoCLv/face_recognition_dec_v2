@@ -9,6 +9,7 @@ from face import Face
 import cv2
 import numpy as np
 
+
 class Detection:
     # face detection parameters
     minsize = settings.MINSIZE
@@ -36,6 +37,7 @@ class Detection:
         bounding_boxes, _ = align.detect_face.detect_face(
             image_small, self.minsize, self.pnet, self.rnet, self.onet,
             self.threshold, self.factor)
+        _factor = int(1 / settings.RESIZE_FACTOR)
         for bb in bounding_boxes:
             face = Face()
             face.image_raw = image_raw
@@ -52,8 +54,13 @@ class Detection:
                 bb[3] + self.face_crop_margin / 2, img_size[0])
             cropped = image_small[face.bounding_box[1]:face.bounding_box[3],
                                   face.bounding_box[0]:face.bounding_box[2], :]
+            raw_cropped = image_raw[face.bounding_box[1]*_factor:face.bounding_box[3]*_factor,
+                                     face.bounding_box[0]*_factor:face.bounding_box[2]*_factor, :]
             face.image = misc.imresize(
                 cropped, (self.face_crop_size, self.face_crop_size),
+                interp='bilinear')
+            face.face_image_raw = misc.imresize(
+                raw_cropped, (self.face_crop_size, self.face_crop_size),
                 interp='bilinear')
             face.result.timestamp = log.get_current_time()
             faces.append(face)

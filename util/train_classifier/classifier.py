@@ -186,7 +186,7 @@ def parse_arguments(argv):
         '--classifier_filename',
         help='Classifier model file name as a pickle (.pkl) file. ' +
         'For training this is the output and for classification this is an input.',
-        default='20181113-1.pkl')
+        default='classifier.pkl')
     parser.add_argument(
         '--use_split_dataset',
         help=

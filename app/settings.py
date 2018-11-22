@@ -5,7 +5,9 @@ import os
 USERNAME = 'admin'
 CAMERA_NAME = 'CAMERA-1'
 PASSWORD = 'admin123'
-IP = '192.168.1.224'
+#IP = '192.168.1.224'
+#IP = '192.168.1.64'
+IP = '192.168.1.108'
 
 ################ 应用参数 ######################
 ILLEGAL_ID = 'unknown'
@@ -15,6 +17,7 @@ LOG_FILE_PATH = LOG_BASE_DIR + '/log'
 LOG_PHOTO_DIR = LOG_BASE_DIR + '/photo'
 PHOTO_SAVE_DIR_LEGAL = LOG_PHOTO_DIR + '/legal'
 PHOTO_SAVE_DIR_ILLEGAL = LOG_PHOTO_DIR + '/illegal'
+PHOTO_SAVE_FOR_DEBUG = LOG_PHOTO_DIR + '/debug'
 
 #FACE_DIR = '/usr/local/share/applications/dec'
 FACE_DIR = os.path.dirname(__file__) + '/..'
@@ -33,7 +36,7 @@ REPORT_PERIOD = 30 # 单位ms
 
 ############### EMAIL告警参数 ################
 EMAIL_ADDR = 'mingde_face@126.com'
-EMAIL_SUPRESS_TIME = 2000  #单位 ms
+EMAIL_SUPRESS_TIME = 5000  #单位 ms
 
 ################# 人脸检测参数 #################
 RESIZE_FACTOR = 0.25
@@ -44,7 +47,7 @@ FACE_CROP_MARGIN = 16
 
 ################ 人脸比对参数 ##################
 USE_SVM = False
-SVM_SIMILARITY_THRESHOLD = 0.8
+SVM_SIMILARITY_THRESHOLD = 0.6
 DISTANCE_THRESHOLD = 0.5
 STRICT_DISTANCE_THRESHOLD = 0.2
 
