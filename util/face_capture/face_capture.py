@@ -6,9 +6,12 @@ sys.path.append('../../app')
 import settings
 import os
 import argparse
+from video_processor import VideoProcessor
 from face import Face
 from detector import Detection
+from queue import Queue
 
+frame_queue = Queue(1)
 
 def parse_arguments(argv):
     parser = argparse.ArgumentParser()
@@ -16,7 +19,7 @@ def parse_arguments(argv):
     return parser.parse_args(argv)
 
 
-def add_overlays(frame, faces):
+def add_overlays(frame, faces, count):
     if faces is not None:
         factor = int(1 / settings.RESIZE_FACTOR)
         for face in faces:
@@ -27,7 +30,7 @@ def add_overlays(frame, faces):
             if face.name is not None:
                 cv2.putText(
                     frame,
-                    face.name, (face_bb[0], face_bb[3]),
+                    str(count), (face_bb[0], face_bb[3]),
                     cv2.FONT_HERSHEY_SIMPLEX,
                     1, (0, 255, 0),
                     thickness=2,
@@ -35,14 +38,16 @@ def add_overlays(frame, faces):
 
 
 def main(args):
-    capture = cv2.VideoCapture(
+    video_capture = VideoProcessor(
         'rtsp://{username}:{password}@{ip}/cam/realmonitor?channel=1&subtype=0'
         .format(
             username=settings.USERNAME,
             password=settings.PASSWORD,
-            ip=settings.IP))
+            ip=settings.IP), output_queue=frame_queue)
+
     detection = Detection()
     num = 0
+    count = 0
     path = 'faces'
     if not os.path.exists(path):
         os.mkdir(path)
@@ -50,20 +55,22 @@ def main(args):
     if not os.path.exists(path):
         os.mkdir(path)
     print('capture faces for : ', str(args.id))
+    video_capture.start_processing()
     while True:
-        ret_val, frame = capture.read()
-        if (not ret_val):
+        frame = video_capture.get_latest_frame()
+        if frame is None:
             continue
+     
         faces = detection.find_faces(frame)
         for face in faces:
             filename = path + '/' + str(num) + '.jpg'
-            if num % 10 == 0:
-                cv2.imwrite(filename, face.image)
-            num = num + 1
-        add_overlays(frame, faces)
+            if num % 2 == 0:
+                cv2.imwrite(filename, face.face_image_raw)
+                count = count + 1
 
-        if settings.SHOW_IMAGE:
-            cv2.imshow('face capture', frame)
+        add_overlays(frame, faces, count)
+        num = num + 1
+        cv2.imshow('face capture', frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
