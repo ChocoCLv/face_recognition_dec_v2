@@ -75,7 +75,7 @@ class facerec_app:
             legal = False
             for f in faces:
                 recognition_result_processor.put_result(f.result)
-                recognition_result_processor.send_email(f.result)
+                #recognition_result_processor.send_email(f.result)
                 if (f.result.result == settings.LEGAL):
                     legal = True
 
@@ -109,7 +109,7 @@ def parse_arguments(argv):
         '--debug',
         type=bool,
         help='show image or not',
-        default=True)
+        default=False)
     return parser.parse_args(argv)
 
 
