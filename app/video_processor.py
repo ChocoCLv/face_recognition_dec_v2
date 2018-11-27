@@ -81,6 +81,10 @@ class VideoProcessor:
     def get_fps(self):
         return self._fps
 
+    def read(self):
+        ret_val, input_image = self._video_device.read()
+        return ret_val, input_image
+
     # Thread target.  When call start_processing and initialized with an output queue,
     # this function will be called in its own thread.  it will keep working until stop_processing is called.
     # or an error is encountered.
