@@ -676,7 +676,7 @@ def parse_arguments(argv):
         '--data_dir',
         type=str,
         help='Path to the data directory containing aligned face patches.',
-        default='./dataset/trainset_aligned')
+        default='../face_capture/faces/margin0')
     parser.add_argument(
         '--model_def',
         type=str,
@@ -687,12 +687,12 @@ def parse_arguments(argv):
         '--max_nrof_epochs',
         type=int,
         help='Number of epochs to run.',
-        default=50)
+        default=10)
     parser.add_argument(
         '--batch_size',
         type=int,
         help='Number of images to process in a batch.',
-        default=90)
+        default=50)
     parser.add_argument(
         '--image_size',
         type=int,
